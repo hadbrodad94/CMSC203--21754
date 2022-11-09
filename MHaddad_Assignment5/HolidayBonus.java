@@ -1,0 +1,54 @@
+/*
+ * Class: CMSC203 
+ * Instructor: Professor Grinberg
+ * Description: Create a program  that would read and write to a file in regards to which retail store would get the bonus and which wouldn’t by accessing through ragged 2d arrays.
+ * Due: 10/31/22
+ * Platform/compiler: Eclipse
+ * I pledge that I have completed the programming 
+ * assignment independently. I have not copied the code 
+ * from a student or any source. I have not given my code 
+ * to any student.
+   Print your Name here: Majd Haddad
+*/
+
+public class HolidayBonus {
+	private final static int HIGHEST = 5000;
+	private final static int LOWEST = 1000;
+	private final static int OTHER = 2000;
+	public static double [] calculateHolidayBonus(double [][] data) {
+		//creates an array with the size of the row of the data.
+		double [] arr = new double [data.length];
+		//accesses through every element in the data array to see if it equals 
+		for(int r = 0; r < data.length; r++) {
+			for(int c = 0; c < data[r].length;c++) {
+				//checks if the element is positive, because if not, it won't check because its invalid and is part of the rquirements
+				if(data[r][c] > 0 ) {
+					//checks if the element at each index of data is equal to the array that gets the highest number  in that specific column
+					//that returns the row index of the highest column.  Then for the corresponding highest row, is where the arr is adding the 5k bonus.
+					//same thing applies for the rest.
+					if(data[r][c] == data[TwoDimRaggedArrayUtility.getHighestInColumnIndex(data, c)][c]) {
+						arr[r] += HIGHEST;
+					}else if( data[r][c] == data[TwoDimRaggedArrayUtility.getLowestInColumnIndex(data, c)][c]) {
+						arr[r] += LOWEST;
+					}else {
+						arr[r] += OTHER;
+					}
+				}else {
+					arr[r]+= 0;
+				}
+			}
+		}
+		return arr;
+	}
+	public static double calculateTotalHolidayBonus(double [][] data) {
+		//sets equal a new array bonus equal to all the holiday bonuses calculated. 
+		//after that, it just goes through each element and adds all the bonuses up and returns the value of that.
+		double [] bonus = calculateHolidayBonus(data);
+		double total = 0;
+		
+		for(int i =0; i < bonus.length; i++) {
+			total+= bonus[i];
+		}
+		return total;
+	}
+}
